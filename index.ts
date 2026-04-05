@@ -148,6 +148,216 @@
 
 
 
+// 2. UserAccount
+class UserAccount {
+  public username: string;
+  private password: string;
+
+  constructor(username: string, password: string) {
+    this.username = username;
+    this.password = password;
+  }
+
+  public changePassword(oldPassword: string, newPassword: string): boolean {
+    if (this.password !== oldPassword) return false;
+    this.password = newPassword;
+    return true;
+  }
+
+  protected isActive(): boolean {
+    return true;
+  }
+}
+
+// 3. Interfaces
+
+// Animal
+interface Animal {
+  name: string;
+  age: number;
+  speak(): void;
+}
+
+class Dog implements Animal {
+  constructor(public name: string, public age: number) {}
+
+  speak(): void {
+    console.log("Woof!");
+  }
+}
+
+class Cat implements Animal {
+  constructor(public name: string, public age: number) {}
+
+  speak(): void {
+    console.log("Meow!");
+  }
+}
+
+// Rental
+interface RentalItem {
+  id: number;
+  name: string;
+  pricePerDay: number;
+  rentItem(): void;
+  returnItem(): void;
+}
+
+class CarRental implements RentalItem {
+  constructor(
+    public id: number,
+    public name: string,
+    public pricePerDay: number
+  ) {}
+
+  rentItem(): void {
+    console.log(`${this.name} rented`);
+  }
+
+  returnItem(): void {
+    console.log(`${this.name} returned`);
+  }
+}
+
+class HouseRental implements RentalItem {
+  constructor(
+    public id: number,
+    public name: string,
+    public pricePerDay: number
+  ) {}
+
+  rentItem(): void {
+    console.log(`${this.name} house rented`);
+  }
+
+  returnItem(): void {
+    console.log(`${this.name} house returned`);
+  }
+}
+
+// 4. Abstract Classes
+
+// Calculator
+abstract class Calculator {
+  abstract add(a: number, b: number): number;
+  abstract subtract(a: number, b: number): number;
+  abstract multiply(a: number, b: number): number;
+}
+
+class BasicCalculator extends Calculator {
+  add(a: number, b: number): number {
+    return a + b;
+  }
+
+  subtract(a: number, b: number): number {
+    return a - b;
+  }
+
+  multiply(a: number, b: number): number {
+    return a * b;
+  }
+}
+
+// Shape
+abstract class Shape {
+  constructor(public name: string) {}
+
+  abstract getArea(): number;
+  abstract getPerimeter(): number;
+}
+
+class Circle extends Shape {
+  constructor(public radius: number) {
+    super("Circle");
+  }
+
+  getArea(): number {
+    return Math.PI * this.radius ** 2;
+  }
+
+  getPerimeter(): number {
+    return 2 * Math.PI * this.radius;
+  }
+}
+
+class Rectangle extends Shape {
+  constructor(public width: number, public height: number) {
+    super("Rectangle");
+  }
+
+  getArea(): number {
+    return this.width * this.height;
+  }
+
+  getPerimeter(): number {
+    return 2 * (this.width + this.height);
+  }
+}
+
+// 5. Static va Singleton
+
+// Counter
+class Counter {
+  static count: number = 0;
+
+  constructor() {
+    Counter.count++;
+  }
+
+  static getCount(): number {
+    return Counter.count;
+  }
+}
+
+// Singleton Logger
+class Logger {
+  private static instance: Logger;
+  private logs: string[] = [];
+
+  private constructor() {}
+
+  static getInstance(): Logger {
+    if (!Logger.instance) {
+      Logger.instance = new Logger();
+    }
+    return Logger.instance;
+  }
+
+  log(message: string): void {
+    this.logs.push(message);
+    console.log("LOG:", message);
+  }
+
+  getLogs(): string[] {
+    return this.logs;
+  }
+}
+
+// TEST 
+
+const user = new UserAccount("ali", "1234");
+user.changePassword("1234", "5678");
+
+const dog = new Dog("Rex", 3);
+dog.speak();
+
+const car = new CarRental(1, "BMW", 100);
+car.rentItem();
+
+const calc = new BasicCalculator();
+console.log(calc.add(2, 3));
+
+const circle = new Circle(5);
+console.log(circle.getArea());
+
+new Counter();
+new Counter();
+console.log(Counter.getCount());
+
+const logger = Logger.getInstance();
+logger.log("Hello Singleton");
+
+
 
 
 
